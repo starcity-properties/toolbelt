@@ -1,4 +1,4 @@
-(ns toolbelt.re-frame
+(ns toolbelt.re-frame.fx
   (:require [re-frame.core :refer [reg-fx]]
             [re-frame.router :as router]
             [re-frame.fx :refer [register]]
