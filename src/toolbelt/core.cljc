@@ -78,12 +78,14 @@
   [v i]
   (vec (concat (subvec v 0 i) (subvec v (inc i)))))
 
-#?(:clj (defn round
-          [x & [precision]]
-          (if precision
-            (let [scale (Math/pow 10 precision)]
-              (-> x (* scale) Math/round (/ scale)))
-            (Math/round x))))
+#?(:clj
+   (do
+     (defn round
+       [x & [precision]]
+       (if precision
+         (let [scale (Math/pow 10 precision)]
+           (-> x (* scale) Math/round (/ scale)))
+         (Math/round x)))))
 
 #?(:cljs
    (do

@@ -2,11 +2,13 @@
   (:require [clojure.core.async :as a :refer [<! go]]
             [toolbelt.predicates :refer [throwable?]]))
 
-#?(:clj (defmacro <!!? [c]
-          `(let [v# (a/<!! ~c)]
-             (if (throwable? v#)
-               (throw v#)
-               v#))))
+#?(:clj
+   (do
+     (defmacro <!!? [c]
+       `(let [v# (a/<!! ~c)]
+          (if (throwable? v#)
+            (throw v#)
+            v#)))))
 
 (defmacro <!? [c]
   `(let [v# (<! ~c)]
@@ -20,4 +22,4 @@
   [& body]
   `(go (try ~@body
             (catch #?(:clj Throwable :cljs js/Error) ex#
-              ex#))))
+                ex#))))
