@@ -7,12 +7,17 @@
      (defn entity?
        "Is `x` a Datomic entity?"
        [x]
-       (= datomic.query.EntityMap (type x)))
+       (instance? datomic.query.EntityMap x))
 
      (defn conn?
        "Is `x` a Datomic connection?"
        [x]
-       (= datomic.peer.LocalConnection (type x)))
+       (instance? datomic.Connection x))
+
+     (defn db?
+       "Is `x` a Datomic database?"
+       [x]
+       (instance? datomic.db.Db x))
 
      (defn lookup?
        "is `x` a lookup ref?"
