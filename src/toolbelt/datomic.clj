@@ -14,7 +14,7 @@
        (d/history db) (:db/id entity)))
 
 (s/fdef updated-at
-        :args (s/cat :connection p/db? :entity p/entity?)
+        :args (s/cat :db p/db? :entity p/entity?)
         :ret inst?)
 
 (defn created-at
@@ -28,5 +28,5 @@
        (d/history db) (:db/id entity)))
 
 (s/fdef created-at
-        :args (s/cat :connection p/db? :entity p/entity?)
+        :args (s/cat :db p/db? :entity p/entity?)
         :ret inst?)
