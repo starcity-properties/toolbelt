@@ -1,4 +1,4 @@
-(defproject starcity/toolbelt "0.1.4-SNAPSHOT"
+(defproject starcity/toolbelt "0.1.4"
   :description "Library of utility functions for Starcity projects."
   :url "https://github.com/starcity-properties/toolbelt"
   :license {:name "Eclipse Public License"
@@ -10,11 +10,11 @@
                  [re-frame "0.9.1"]
                  [reagent "0.6.0"]
                  [com.andrewmcveigh/cljs-time "0.4.0"]
-                 [clj-time "0.12.0"]]
+                 [clj-time "0.12.0"]
+                 [bouncer "1.0.1"]]
 
   :plugins [[s3-wagon-private "1.2.0"]]
 
   :repositories {"releases" {:url           "s3://starjars/releases"
                              :username      :env/aws_access_key
-                             :passphrase    :env/aws_secret_key
-                             :sign-releases false}} )
+                             :passphrase    :env/aws_secret_key}} )
