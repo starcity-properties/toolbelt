@@ -43,6 +43,27 @@
         m))
     m keys)))
 
+
+(defn assoc-some
+  "Like assoc but only assocs when value is non-nil."
+  [m & kvs]
+  (assert (even? (count kvs)))
+  (into (or m {})
+        (for [[k v] (partition 2 kvs)
+              :when (not (nil? v))]
+          [k v])))
+
+
+(defn assoc-when
+  "Like assoc but only assocs when value is truthy."
+  [m & kvs]
+  (assert (even? (count kvs)))
+  (into (or m {})
+        (for [[k v] (partition 2 kvs)
+              :when v]
+          [k v])))
+
+
 (defn dissoc-when
   "Dissoc from `korks' when the value is falsy, or when the optionally supplied
   predicate produces a falsy value when invoked on the value."
