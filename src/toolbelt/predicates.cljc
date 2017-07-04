@@ -1,13 +1,20 @@
 (ns toolbelt.predicates
-  (:require clojure.core.async
-            #?(:clj datomic.api)))
+  #?(:cljs (:require [clojure.core.async])
+     :clj (:require [clojure.core.async]
+                    [datomic.api]
+                    [toolbelt.datomic])))
 
 #?(:clj
    (do
      (defn entity?
+       "Is `x` an EntityReference?"
+       [x]
+       (toolbelt.datomic/entity? x))
+
+     (defn entityd?
        "Is `x` a Datomic entity?"
        [x]
-       (instance? datomic.query.EntityMap x))
+       (toolbelt.datomic/entityd? x))
 
      (defn conn?
        "Is `x` a Datomic connection?"
@@ -17,7 +24,7 @@
      (defn db?
        "Is `x` a Datomic database?"
        [x]
-       (instance? datomic.db.Db x))
+       (toolbelt.datomic/db? x))
 
      (defn lookup?
        "is `x` a lookup ref?"
