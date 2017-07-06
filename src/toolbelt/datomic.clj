@@ -98,27 +98,6 @@
 
 
 ;; =============================================================================
-;; Entity
-;; =============================================================================
-
-
-(declare db? entity? entityd?)
-
-(defn entities
-  "Maps `entity` over `entids`, producing a vector of entities."
-  [db & entids]
-  (mapv
-   (fn [entid]
-     (entity entid db))
-   entids))
-
-(s/fdef entities
-        :args (s/cat :db db?
-                     :entids (s/spec (s/+ entity?)))
-        :ret (s/+ entityd?))
-
-
-;; =============================================================================
 ;; Predicates
 ;; =============================================================================
 
@@ -133,6 +112,25 @@
 
 (defn entityd? [x]
   (instance? datomic.query.EntityMap x))
+
+
+;; =============================================================================
+;; Entity
+;; =============================================================================
+
+
+(defn entities
+  "Maps `entity` over `entids`, producing a vector of entities."
+  [db & entids]
+  (mapv
+   (fn [entid]
+     (entity entid db))
+   entids))
+
+(s/fdef entities
+        :args (s/cat :db db?
+                     :entids (s/spec (s/+ entity?)))
+        :ret (s/+ entityd?))
 
 
 ;; =============================================================================
