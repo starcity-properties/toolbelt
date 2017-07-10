@@ -1,6 +1,6 @@
 (ns toolbelt.core
-  #?(:cljs (:import [goog.ui IdGenerator]))
-  (:require [plumbing.core :refer [dissoc-in]]))
+  #?(:cljs (:import [goog.ui IdGenerator])))
+
 
 (defn transform-when-key-exists
   "(transform-when-key-exists
@@ -23,6 +23,7 @@
                   x)))))
    {}
    source))
+
 
 (defn str->int
   "Converts a string to an integer. If the input is already a number,
@@ -64,6 +65,29 @@
           [k v])))
 
 
+(defn conj-when
+  "Like conj but ignores non-truthy values."
+  ([coll x] (if x (conj coll x) coll))
+  ([coll x & xs]
+   (if xs
+     (recur (conj-when coll x)
+            (first xs)
+            (next xs))
+     (conj-when coll x))))
+
+
+(defn dissoc-in
+  "Dissociate this keyseq from m, removing any empty maps created as a result
+   (including at the top-level)."
+  [m [k & ks]]
+  (when m
+    (if-let [res (and ks (dissoc-in (get m k) ks))]
+      (assoc m k res)
+      (let [res (dissoc m k)]
+        (when-not (empty? res)
+          res)))))
+
+
 (defn dissoc-when
   "Dissoc from `korks' when the value is falsy, or when the optionally supplied
   predicate produces a falsy value when invoked on the value."
@@ -75,6 +99,7 @@
        (dissoc-in m korks)
        m))))
 
+
 (defn find-by
   "Return the first element in `coll` matching `pred`; otherwise nil."
   [pred coll]
@@ -85,6 +110,7 @@
       (empty? xs) nil
       :otherwise  (recur (first xs) (rest xs)))))
 
+
 (defn strip-namespaces
   "Remove all namespaces from keyword keys."
   [m]
@@ -94,10 +120,12 @@
    {}
    m))
 
+
 (defn remove-at
   "Remove element at index `i` from vector `v`."
   [v i]
   (vec (concat (subvec v 0 i) (subvec v (inc i)))))
+
 
 #?(:clj
    (do
