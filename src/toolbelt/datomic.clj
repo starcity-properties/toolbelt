@@ -129,7 +129,7 @@
 
 (s/fdef entities
         :args (s/cat :db db?
-                     :entids (s/spec (s/+ entity?)))
+                     :entids (s/+ entity?))
         :ret (s/+ entityd?))
 
 
@@ -151,6 +151,7 @@
 (s/fdef updated-at
         :args (s/cat :db db? :entity entity?)
         :ret inst?)
+
 
 (defn created-at
   "Produce the instant in which `entity` was created."
