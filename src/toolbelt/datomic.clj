@@ -166,3 +166,11 @@
 (s/fdef created-at
         :args (s/cat :db db? :entity entity?)
         :ret inst?)
+
+
+(defn remap-query
+  "Remove the `args` key from query map `m` to create a proper input to
+  `datomic.api/query`."
+  [{args :args :as m}]
+  {:query (dissoc m :args)
+   :args args})
