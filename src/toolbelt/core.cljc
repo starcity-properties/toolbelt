@@ -141,11 +141,11 @@
      (defn guid []
        (.getNextUniqueId (.getInstance IdGenerator)))
 
-     (defn log [& args]
-       (.apply js/console.log js/console (to-array args)))
+     (def log
+       (.bind js/console.log js/console))
 
-     (defn warn [& args]
-       (.apply js/console.warn js/console (to-array args)))
+     (def warn
+       (.bind js/console.warn js/console))
 
-     (defn error [& args]
-       (.apply js/console.error js/console (to-array args)))))
+     (def error
+       (.bind js/console.error js/console))))
