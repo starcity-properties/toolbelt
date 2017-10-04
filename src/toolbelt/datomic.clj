@@ -138,6 +138,14 @@
 ;; =============================================================================
 
 
+(defn remap-query
+  "Remove the `args` key from query map `m` to create a proper input to
+  `datomic.api/query`."
+  [{args :args :as m}]
+  {:query (dissoc m :args)
+   :args args})
+
+
 (defn updated-at
   "Produce the instant in which `entity` was last updated."
   [db entity]
@@ -168,9 +176,27 @@
         :ret inst?)
 
 
-(defn remap-query
-  "Remove the `args` key from query map `m` to create a proper input to
-  `datomic.api/query`."
-  [{args :args :as m}]
-  {:query (dissoc m :args)
-   :args args})
+(defn eav-tx-q*
+  [db e a v]
+  (let [init '{:find  [?tx .]
+               :in    [$ ?e]
+               :args  []
+               :where []}]
+    (-> init
+        (update :args conj (d/history db) e)
+        (update :where conj ['?e a v '?tx]))))
+
+
+(defn eav-tx
+  [db e a v]
+  (->> (eav-tx-q* db e a v)
+       (remap-query)
+       (d/query)
+       (d/entity db)))
+
+
+(defn last-modified-to
+  "Produce the instant in time at which attribute `a` was last modified to `v`
+  on entity `e`."
+  [db e a v]
+  (:db/txInstant (eav-tx db e a v)))
