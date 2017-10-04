@@ -1,4 +1,4 @@
-(defproject starcity/toolbelt "0.1.8"
+(defproject starcity/toolbelt "0.1.9-SNAPSHOT"
   :description "Library of utility functions for Starcity projects."
   :url "https://github.com/starcity-properties/toolbelt"
   :license {:name "Eclipse Public License"
