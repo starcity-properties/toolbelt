@@ -100,6 +100,24 @@
        m))))
 
 
+(defn update-in-when
+  "Like update-in but returns m unchanged if key-seq is not present."
+  [m key-seq f & args]
+  (let [found (get-in m key-seq ::missing)]
+    (if-not (identical? ::missing found)
+      (assoc-in m key-seq (apply f found args))
+      m)))
+
+
+(defn update-in-some
+  "Like update-in but returns m unchanged if key-seq is not present."
+  [m key-seq f & args]
+  (let [found (get-in m key-seq)]
+    (if-not (nil? found)
+      (assoc-in m key-seq (apply f found args))
+      m)))
+
+
 (defn find-by
   "Return the first element in `coll` matching `pred`; otherwise nil."
   [pred coll]
