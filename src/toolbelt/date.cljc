@@ -65,6 +65,16 @@
        [inst tz]
        (c/to-date (to-utc-corrected-date-time (c/to-date-time inst) tz)))
 
+     (defn from-tz-date-time
+       "Given a DateTime in UTC and `timezone`, produce the datetime in UTC in `timezone`."
+       [dt tz]
+       (t/from-time-zone (t/to-time-zone dt tz) t/utc))
+
+     (defn from-tz-date
+       "Given an instant in UTC and `timezone`, produce the instant in UTC in `timezone`."
+       [inst tz]
+       (c/to-date (from-tz-date-time (c/to-date-time inst) tz)))
+
      (defn end-of-day
        "Produce a date that is on the same day as `date`, but with time set to the
         last second in `date`."
