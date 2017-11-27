@@ -145,6 +145,18 @@
   (vec (concat (subvec v 0 i) (subvec v (inc i)))))
 
 
+(defn distinct-by
+  "Returns elements of xs which return unique values according to f. If multiple
+  elements of xs return the same value under f, the first is returned"
+  [f xs]
+  (let [s (atom #{})]
+    (for [x     xs
+          :let  [id (f x)]
+          :when (not (contains? @s id))]
+      (do (swap! s conj id)
+          x))))
+
+
 #?(:clj
    (do
      (defn round
